@@ -1,0 +1,96 @@
+.transaction-list {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  margin-top: 25px;
+}
+
+.transaction-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.transaction-list thead {
+  background-color: var(--dark-bg);
+  color: white;
+}
+
+.transaction-list th {
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.transaction-list td {
+  padding: 16px;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 14px;
+}
+
+.transaction-list tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.transaction-list tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.transaction-list .actions {
+  display: flex;
+  gap: 10px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  background-color: #f8f9fa;
+}
+
+.page-info {
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+.btn-page {
+  padding: 8px 16px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.btn-page:hover:not(:disabled) {
+  background-color: var(--primary-dark);
+}
+
+.btn-page:disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .transaction-list {
+    overflow-x: auto;
+  }
+
+  .transaction-list table {
+    min-width: 700px;
+  }
+
+  .transaction-list th,
+  .transaction-list td {
+    padding: 12px 8px;
+    font-size: 12px;
+  }
+}
+

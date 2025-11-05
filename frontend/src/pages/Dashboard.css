@@ -1,0 +1,177 @@
+.dashboard {
+  animation: fadeIn 0.5s ease;
+}
+
+.dashboard h1 {
+  font-size: 32px;
+  margin-bottom: 30px;
+  color: var(--text-dark);
+}
+
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.card {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.card h3 {
+  font-size: 14px;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.card .amount {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.income-card {
+  border-left: 4px solid var(--success-color);
+}
+
+.expense-card {
+  border-left: 4px solid var(--danger-color);
+}
+
+.balance-card {
+  border-left: 4px solid var(--primary-color);
+}
+
+.balance-card .amount.positive {
+  color: var(--success-color);
+}
+
+.balance-card .amount.negative {
+  color: var(--danger-color);
+}
+
+.chart-section {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 40px;
+}
+
+.chart-section h2 {
+  font-size: 24px;
+  margin-bottom: 25px;
+  color: var(--text-dark);
+}
+
+.chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.pie-chart {
+  flex-shrink: 0;
+}
+
+.legend {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.recent-transactions {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.recent-transactions h2 {
+  font-size: 24px;
+  margin-bottom: 25px;
+  color: var(--text-dark);
+}
+
+.category-lists {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.category-list h3 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: var(--text-dark);
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 10px;
+}
+
+.category-list ul {
+  list-style: none;
+}
+
+.category-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.category-list li:last-child {
+  border-bottom: none;
+}
+
+@media (max-width: 768px) {
+  .dashboard h1 {
+    font-size: 24px;
+  }
+
+  .summary-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .card .amount {
+    font-size: 28px;
+  }
+
+  .chart-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .category-lists {
+    grid-template-columns: 1fr;
+  }
+}
+

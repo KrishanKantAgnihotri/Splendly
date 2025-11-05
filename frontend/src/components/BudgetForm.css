@@ -1,0 +1,10 @@
+.budget-form h2 {
+  font-size: 24px;
+  margin-bottom: 25px;
+  color: var(--text-dark);
+}
+
+.budget-form .form-group {
+  margin-bottom: 20px;
+}
+

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+        .success { color: green; }
+        .error { color: red; }
+        pre { background: #f4f4f4; padding: 10px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Spendly API Tester</h1>
+    
+    <div>
+        <h3>1. Test Login</h3>
+        <button onclick="testLogin()">Test Login (demo/demo123456)</button>
+        <div id="loginResult"></div>
+    </div>
+
+    <div>
+        <h3>2. Test Get Categories (requires login first)</h3>
+        <button onclick="testCategories()">Get Categories</button>
+        <div id="categoriesResult"></div>
+    </div>
+
+    <div>
+        <h3>3. Test Get Transactions</h3>
+        <button onclick="testTransactions()">Get Transactions</button>
+        <div id="transactionsResult"></div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8000/api';
+        let authToken = null;
+
+        async function testLogin() {
+            const resultDiv = document.getElementById('loginResult');
+            resultDiv.innerHTML = '<p>Testing login...</p>';
+
+            try {
+                const response = await fetch(`${API_URL}/auth/login/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: 'demo',
+                        password: 'demo123456'
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    authToken = data.token;
+                    localStorage.setItem('token', authToken);
+                    resultDiv.innerHTML = `
+                        <p class="success">✓ Login successful!</p>
+                        <pre>Token: ${authToken.substring(0, 20)}...
+User: ${JSON.stringify(data.user, null, 2)}</pre>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `<p class="error">✗ Login failed: ${JSON.stringify(data)}</p>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<p class="error">✗ Error: ${error.message}</p>`;
+            }
+        }
+
+        async function testCategories() {
+            const resultDiv = document.getElementById('categoriesResult');
+            
+            if (!authToken) {
+                authToken = localStorage.getItem('token');
+            }
+            
+            if (!authToken) {
+                resultDiv.innerHTML = '<p class="error">✗ Please login first!</p>';
+                return;
+            }
+
+            resultDiv.innerHTML = '<p>Fetching categories...</p>';
+
+            try {
+                const response = await fetch(`${API_URL}/categories/`, {
+                    headers: {
+                        'Authorization': `Token ${authToken}`,
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = `
+                        <p class="success">✓ Got ${data.length} categories!</p>
+                        <pre>${JSON.stringify(data.slice(0, 5), null, 2)}
+... and ${data.length - 5} more</pre>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `<p class="error">✗ Failed: ${JSON.stringify(data)}</p>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<p class="error">✗ Error: ${error.message}</p>`;
+            }
+        }
+
+        async function testTransactions() {
+            const resultDiv = document.getElementById('transactionsResult');
+            
+            if (!authToken) {
+                authToken = localStorage.getItem('token');
+            }
+            
+            if (!authToken) {
+                resultDiv.innerHTML = '<p class="error">✗ Please login first!</p>';
+                return;
+            }
+
+            resultDiv.innerHTML = '<p>Fetching transactions...</p>';
+
+            try {
+                const response = await fetch(`${API_URL}/transactions/`, {
+                    headers: {
+                        'Authorization': `Token ${authToken}`,
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    const results = data.results || data;
+                    resultDiv.innerHTML = `
+                        <p class="success">✓ Got ${data.count || results.length} transactions!</p>
+                        <pre>${JSON.stringify(results.slice(0, 3), null, 2)}
+... and more</pre>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `<p class="error">✗ Failed: ${JSON.stringify(data)}</p>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<p class="error">✗ Error: ${error.message}</p>`;
+            }
+        }
+
+        // Try to load token on page load
+        window.onload = () => {
+            authToken = localStorage.getItem('token');
+            if (authToken) {
+                document.getElementById('loginResult').innerHTML = 
+                    '<p class="success">Token found in localStorage</p>';
+            }
+        };
+    </script>
+</body>
+</html>
+
